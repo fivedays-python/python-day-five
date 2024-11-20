@@ -1,147 +1,202 @@
-### **Lecture Notes**
+## **Lecture Notes**
 
-#### **1. Advanced Data Structures**
+### **1. Review of Key Concepts**
 
-##### **List Comprehensions**
+Before diving into new topics, let's briefly revisit some essential Python concepts.
 
-Concise way to create lists.
+#### **Variables and Data Types**
 
-**Syntax:**
-
-```python
-new_list = [expression for item in iterable if condition]
-```
+- **Variables:** Store data values.
+- **Data Types:** Integers, floats, strings, booleans, lists, tuples, dictionaries.
 
 **Example:**
 
 ```python
-squares = [x**2 for x in range(1, 11)]
-print(squares)
+name = "Alice"
+age = 25
+grades = [85, 90, 78]
 ```
 
-**Output:**
+#### **Control Structures**
 
-```
-[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
-```
-
-##### **Dictionary Comprehensions**
+- **Conditional Statements:** `if`, `elif`, `else`.
+- **Loops:** `for`, `while`.
 
 **Example:**
 
 ```python
-square_dict = {x: x**2 for x in range(1, 6)}
-print(square_dict)
+if age >= 18:
+    print("You are an adult.")
+else:
+    print("You are a minor.")
 ```
 
-**Output:**
+#### **Functions**
 
-```
-{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
-```
-
-##### **Generators**
-
-Functions that return an iterator.
+- Reusable blocks of code defined using `def`.
 
 **Example:**
 
 ```python
-def generate_numbers(n):
-    for i in range(n):
-        yield i
+def greet(name):
+    return f"Hello, {name}!"
 
-gen = generate_numbers(5)
-for num in gen:
-    print(num)
+print(greet("Alice"))
 ```
 
-**Output:**
+#### **Data Collections**
 
-```
-0
-1
-2
-3
-4
-```
+- **Lists:** Ordered, mutable collections.
+- **Dictionaries:** Unordered collections of key-value pairs.
 
 ---
 
-#### **2. Working with External Libraries**
+### **2. Modules and Packages**
 
-##### **NumPy**
+Modules and packages help organize your code and reuse functionality across different programs.
 
-Numerical Python library for array computations.
+#### **What is a Module?**
 
-**Example:**
+- A **module** is a file containing Python definitions and statements.
+- Modules allow you to organize code into separate files for better manageability.
 
-```python
-import numpy as np
+#### **Importing Standard Library Modules**
 
-arr = np.array([1, 2, 3, 4, 5])
-print(arr * 2)
-```
+Python comes with a rich set of modules known as the **standard library**.
 
-**Output:**
+**Commonly Used Modules:**
 
-```
-[ 2  4  6  8 10]
-```
-
-##### **pandas**
-
-Data manipulation and analysis library.
+- `math`: Mathematical functions.
+- `random`: Generating random numbers.
+- `datetime`: Working with dates and times.
+- `os`: Interacting with the operating system.
 
 **Example:**
 
 ```python
-import pandas as pd
+import math
 
-data = {'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [25, 30, 35]}
-df = pd.DataFrame(data)
-print(df)
+print(math.sqrt(16))  # Outputs: 4.0
 ```
 
-**Output:**
+#### **Using Functions from Modules**
 
+Access functions and variables using the dot `.` notation.
+
+**Example:**
+
+```python
+import random
+
+number = random.randint(1, 10)
+print(f"Random number between 1 and 10: {number}")
 ```
-      Name  Age
-0    Alice   25
-1      Bob   30
-2  Charlie   35
-```
+
+#### **Creating Your Own Modules**
+
+1. **Create a Python File (Module):**
+
+   - Create a new file named `utilities.py`.
+
+   ```python
+   # utilities.py
+
+   def add(a, b):
+       return a + b
+
+   def subtract(a, b):
+       return a - b
+   ```
+
+2. **Import and Use Your Module:**
+
+   - In your main script `main.py`, import your custom module.
+
+   ```python
+   # main.py
+
+   import utilities
+
+   result = utilities.add(5, 3)
+   print(f"Addition Result: {result}")
+   ```
+
+**Note:** Make sure both files are in the same directory.
+
+#### **Benefits of Using Modules**
+
+- **Code Reusability:** Write code once and use it in multiple programs.
+- **Organization:** Keep your codebase organized and manageable.
+- **Namespace Management:** Avoid naming conflicts by encapsulating code within modules.
 
 ---
 
-#### **3. Regular Expressions**
+### **3. Working with External Data**
 
-Used for pattern matching in strings.
+Handling data from external files is a common task in programming.
 
-**Import the `re` Module:**
+#### **Reading from a CSV File**
 
-```python
-import re
+A **CSV (Comma-Separated Values)** file stores tabular data in plain text.
+
+**Example CSV (`students.csv`):**
+
+```
+Name,Grade
+Alice,85
+Bob,78
+Charlie,92
 ```
 
-##### **Common Functions:**
-
-- **`re.match()`**: Checks for a match at the beginning of a string.
-- **`re.search()`**: Searches the string for a match anywhere.
-- **`re.findall()`**: Returns a list of all matches.
-
-**Example:**
+**Reading a CSV File:**
 
 ```python
-pattern = r'\d+'  # Matches one or more digits
-text = "There are 12 apples and 24 bananas."
+import csv
 
-numbers = re.findall(pattern, text)
-print(numbers)
+with open('students.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        print(row)
 ```
 
 **Output:**
 
 ```
-['12', '24']
+['Name', 'Grade']
+['Alice', '85']
+['Bob', '78']
+['Charlie', '92']
 ```
+
+#### **Writing to a CSV File**
+
+**Writing Data to a CSV File:**
+
+```python
+import csv
+
+data = [
+    ['Name', 'Grade'],
+    ['Alice', '85'],
+    ['Bob', '78'],
+    ['Charlie', '92']
+]
+
+with open('output.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerows(data)
+```
+
+#### **Calculating Averages**
+
+Let's write a function to calculate the average grade.
+
+```python
+def calculate_average(grades):
+    total = sum(grades)
+    count = len(grades)
+    average = total / count
+    return average
+```
+
+---
